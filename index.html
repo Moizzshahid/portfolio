@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="p:domain_verify" content="24cb0da7e306197dd796e63eae72a41e"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Azonix — Moiz | Designer · Developer · AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="abc.png">
+<style>
+:root {
+  --bg: #f8f7f4;
+  --bg2: #f0efe9;
+  --bg3: #e8e7e0;
+  --ink: #111110;
+  --ink2: #5c5b55;
+  --ink3: #9a9990;
+  --border: #e0dfd6;
+  --border2: #cccbbe;
+  --card: #ffffff;
+  --nav-bg: rgba(248,247,244,0.92);
+  --contact-bg: #111110;
+  --contact-text: #f8f7f4;
+  --toggle-bg: #e0dfd6;
+  --toggle-thumb: #111110;
+}
+[data-theme="dark"] {
+  --bg: #0f0f0e;
+  --bg2: #181817;
+  --bg3: #222220;
+  --ink: #f0efe9;
+  --ink2: #a8a79e;
+  --ink3: #6a6960;
+  --border: #2a2a28;
+  --border2: #3a3a38;
+  --card: #1a1a18;
+  --nav-bg: rgba(15,15,14,0.92);
+  --contact-bg: #080808;
+  --contact-text: #f0efe9;
+  --toggle-bg: #3a3a38;
+  --toggle-thumb: #f0efe9;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--ink); overflow-x: hidden; cursor: none; transition: background 0.4s ease, color 0.4s ease; }
+
+/* CURSOR */
+.cursor { width: 9px; height: 9px; background: var(--ink); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; transition: background 0.3s; }
+.cursor-ring { width: 34px; height: 34px; border: 1.5px solid var(--ink); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998; opacity: 0.4; transition: width 0.2s, height 0.2s, opacity 0.2s, border-color 0.3s; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.3rem 4rem; background: var(--nav-bg); backdrop-filter: blur(20px); border-bottom: 1px solid transparent; transition: border-color 0.3s, background 0.4s; }
+nav.scrolled { border-color: var(--border); }
+.nav-logo { font-family: 'Azonix', sans-serif; font-weight: 800; font-size: 1.15rem; letter-spacing: -0.01em; color: var(--ink); text-decoration: none; transition: color 0.4s; }
+.nav-right { display: flex; align-items: center; gap: 2.5rem; }
+.nav-links { display: flex; gap: 2.2rem; list-style: none; }
+.nav-links a { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink2); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(--ink); }
+
+/* THEME TOGGLE */
+.theme-toggle { position: relative; width: 48px; height: 26px; cursor: pointer; }
+.theme-toggle input { opacity: 0; width: 0; height: 0; }
+.toggle-track { position: absolute; inset: 0; background: var(--toggle-bg); border-radius: 100px; border: 1px solid var(--border2); transition: background 0.4s, border-color 0.4s; display: flex; align-items: center; padding: 0 4px; }
+.toggle-thumb { width: 18px; height: 18px; border-radius: 50%; background: var(--toggle-thumb); transition: transform 0.35s cubic-bezier(.4,0,.2,1), background 0.4s; display: flex; align-items: center; justify-content: center; }
+[data-theme="dark"] .toggle-thumb { transform: translateX(22px); }
+.toggle-icon { width: 10px; height: 10px; }
+
+/* SVG ICON SYSTEM */
+.icon { display: inline-block; vertical-align: middle; flex-shrink: 0; }
+.icon path, .icon circle, .icon line, .icon polyline, .icon rect, .icon polygon { stroke: currentColor; }
+
+/* HERO */
+#hero { min-height: 100vh; display: flex; align-items: center; padding: 0 4rem; position: relative; overflow: hidden; }
+.hero-grid { position: absolute; inset: 0; background-image: linear-gradient(to right, var(--border) 1px, transparent 1px), linear-gradient(to bottom, var(--border) 1px, transparent 1px); background-size: 64px 64px; opacity: 0.5; mask-image: radial-gradient(ellipse 75% 75% at 50% 50%, black 30%, transparent 100%); z-index: 0; transition: opacity 0.4s; }
+.hero-content { position: relative; z-index: 2; max-width: 1100px; width: 100%; }
+.hero-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink3); margin-bottom: 1.8rem; opacity: 0; animation: fadeUp 0.7s 0.3s forwards; }
+.hero-eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--ink3); }
+.hero-name { font-family: 'Azonix', sans-serif; font-weight: 800; font-size: clamp(3.8rem, 9.5vw, 8.5rem); line-height: 0.92; letter-spacing: -0.03em; color: var(--ink); opacity: 0; animation: fadeUp 0.8s 0.5s forwards; transition: color 0.4s; }
+.hero-name span { color: var(--ink3); }
+.hero-sub { font-family: 'Syne', sans-serif; font-size: clamp(0.85rem, 1.8vw, 1rem); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink2); margin-top: 1.8rem; display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; opacity: 0; animation: fadeUp 0.8s 0.7s forwards; }
+.hero-sub-dot { color: var(--ink3); margin: 0 0.2rem; }
+.hero-bottom { margin-top: 3.5rem; display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; opacity: 0; animation: fadeUp 0.8s 0.9s forwards; }
+.hero-bio { max-width: 400px; font-size: 0.93rem; color: var(--ink2); line-height: 1.8; font-weight: 300; transition: color 0.4s; }
+.hero-bio strong { color: var(--ink); font-weight: 500; }
+.hero-cta { display: flex; gap: 0.8rem; flex-shrink: 0; }
+.btn { display: inline-flex; align-items: center; gap: 7px; padding: 0.7rem 1.6rem; font-family: 'DM Sans', sans-serif; font-size: 0.83rem; font-weight: 500; text-decoration: none; border-radius: 100px; transition: all 0.2s ease; border: 1px solid transparent; }
+.btn-dark { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.btn-dark:hover { opacity: 0.82; transform: translateY(-2px); }
+.btn-outline { background: transparent; color: var(--ink); border-color: var(--border2); }
+.btn-outline:hover { border-color: var(--ink); transform: translateY(-2px); }
+.scroll-line-wrap { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 6px; opacity: 0; animation: fadeUp 0.8s 1.3s forwards; }
+.scroll-line { width: 1px; height: 44px; background: linear-gradient(to bottom, transparent, var(--ink3)); animation: scrollAnim 2s 1.5s ease-in-out infinite; }
+@keyframes scrollAnim { 0%,100%{opacity:0.3;}50%{opacity:1;} }
+
+/* ORB */
+.orb-wrap { position: absolute; right: 5%; top: 50%; transform: translateY(-50%); z-index: 1; opacity: 0; animation: fadeIn 1.2s 1s forwards; }
+.orb { width: 240px; height: 240px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, var(--bg2) 0%, var(--border) 40%, var(--ink3) 100%); animation: orbFloat 6s ease-in-out infinite; box-shadow: inset -15px -15px 35px rgba(0,0,0,0.1), inset 8px 8px 25px rgba(255,255,255,0.3); }
+[data-theme="dark"] .orb { box-shadow: inset -15px -15px 35px rgba(0,0,0,0.4), inset 8px 8px 25px rgba(255,255,255,0.04); }
+.orb-r1 { position: absolute; inset: -24px; border: 1px solid var(--border); border-radius: 50%; animation: orbSpin 9s linear infinite; }
+.orb-r2 { position: absolute; inset: -48px; border: 1px dashed var(--border); border-radius: 50%; animation: orbSpin 14s linear infinite reverse; }
+@keyframes orbFloat { 0%,100%{transform:translateY(0);}50%{transform:translateY(-16px);} }
+@keyframes orbSpin { from{transform:rotate(0);}to{transform:rotate(360deg);} }
+
+/* SECTIONS */
+section { padding: 7rem 4rem; }
+.max-w { max-width: 1100px; margin: 0 auto; }
+.sec-label { display: inline-flex; align-items: center; gap: 10px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink3); margin-bottom: 1.4rem; }
+.sec-label::before { content: ''; display: block; width: 18px; height: 1px; background: var(--ink3); }
+.sec-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: clamp(1.9rem, 3.8vw, 3rem); line-height: 1.1; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 0.8rem; transition: color 0.4s; }
+
+/* ABOUT */
+#about { background: var(--bg2); transition: background 0.4s; }
+.about-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 5rem; align-items: center; }
+.about-text p { font-size: 0.95rem; color: var(--ink2); line-height: 1.85; font-weight: 300; margin-bottom: 1.1rem; transition: color 0.4s; }
+.about-text p strong { color: var(--ink); font-weight: 500; }
+.about-card { background: var(--card); border: 1px solid var(--border); border-radius: 22px; padding: 2rem; animation: cardFloat 5s ease-in-out infinite; transition: background 0.4s, border-color 0.4s; }
+@keyframes cardFloat { 0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);} }
+.about-avatar { width: 60px; height: 60px; border-radius: 50%; background: var(--bg3); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.3rem; color: var(--ink); margin-bottom: 1rem; transition: background 0.4s; }
+.about-card h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; color: var(--ink); margin-bottom: 0.2rem; }
+.about-card .role { font-size: 0.78rem; color: var(--ink3); margin-bottom: 1.2rem; }
+.chip-list { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.chip { font-size: 0.68rem; font-weight: 500; padding: 0.22rem 0.65rem; border: 1px solid var(--border); border-radius: 100px; color: var(--ink2); background: var(--bg2); transition: all 0.2s; }
+
+/* SERVICES */
+.services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.3rem; margin-top: 3rem; }
+.svc-card { padding: 1.8rem; border: 1px solid var(--border); border-radius: 18px; background: var(--card); position: relative; overflow: hidden; transition: border-color 0.3s, background 0.4s; }
+.svc-card::after { content: ''; position: absolute; inset: 0; background: var(--ink); border-radius: 18px; transform: scaleY(0); transform-origin: bottom; transition: transform 0.35s ease; z-index: 0; }
+.svc-card:hover::after { transform: scaleY(1); }
+.svc-card:hover .svc-num, .svc-card:hover .svc-ico, .svc-card:hover .svc-title, .svc-card:hover .svc-desc { color: var(--bg) !important; }
+.svc-card:hover .svc-tool { border-color: rgba(255,255,255,0.18); color: rgba(255,255,255,0.55); }
+.svc-inner { position: relative; z-index: 1; }
+.svc-num { font-family: 'Syne', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; color: var(--ink3); margin-bottom: 1.4rem; transition: color 0.3s; }
+.svc-ico { width: 36px; height: 36px; color: var(--ink); margin-bottom: 1rem; transition: color 0.3s; }
+.svc-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; color: var(--ink); margin-bottom: 0.6rem; transition: color 0.3s; }
+.svc-desc { font-size: 0.84rem; color: var(--ink2); line-height: 1.7; margin-bottom: 1.3rem; font-weight: 300; transition: color 0.3s; }
+.svc-tools { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.svc-tool { font-size: 0.67rem; padding: 0.18rem 0.55rem; border: 1px solid var(--border); border-radius: 100px; color: var(--ink3); transition: all 0.3s; }
+
+/* PROJECTS */
+#projects { background: var(--bg2); transition: background 0.4s; }
+.projects-intro { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem; }
+.projects-note { font-size: 0.82rem; color: var(--ink3); max-width: 320px; line-height: 1.6; font-weight: 300; }
+.projects-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.3rem; }
+.proj-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.4s, border-color 0.4s; cursor: pointer; }
+.proj-card:hover { transform: translateY(-5px); box-shadow: 0 16px 50px rgba(0,0,0,0.08); }
+[data-theme="dark"] .proj-card:hover { box-shadow: 0 16px 50px rgba(0,0,0,0.35); }
+.proj-thumb { height: 170px; position: relative; overflow: hidden; background: var(--bg3); display: flex; align-items: center; justify-content: center; transition: background 0.4s; }
+.proj-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.proj-thumb video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.proj-thumb-placeholder { display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--ink3); }
+.proj-thumb-placeholder svg { width: 28px; height: 28px; opacity: 0.5; }
+.proj-thumb-placeholder span { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.5; }
+.proj-badge { position: absolute; top: 10px; right: 10px; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; background: rgba(0,0,0,0.12); color: rgba(0,0,0,0.45); padding: 0.2rem 0.55rem; border-radius: 100px; backdrop-filter: blur(4px); }
+[data-theme="dark"] .proj-badge { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.45); }
+.proj-info { padding: 1.2rem; }
+.proj-cat { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); margin-bottom: 0.3rem; }
+.proj-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; color: var(--ink); margin-bottom: 0.4rem; transition: color 0.4s; }
+.proj-desc { font-size: 0.78rem; color: var(--ink3); line-height: 1.6; font-weight: 300; }
+
+/* SKILLS (minimal, just bars) */
+#skills { transition: background 0.4s; }
+.skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-top: 2.5rem; }
+.skill-group { padding: 1.5rem; border: 1px solid var(--border); border-radius: 16px; background: var(--card); transition: background 0.4s, border-color 0.4s; }
+.skill-group-title { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); margin-bottom: 1.1rem; }
+.skill-row { margin-bottom: 0.7rem; }
+.skill-row-top { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--ink); font-weight: 500; margin-bottom: 0.35rem; transition: color 0.4s; }
+.skill-row-top span { color: var(--ink3); font-weight: 300; font-size: 0.75rem; }
+.bar-bg { height: 3px; background: var(--bg3); border-radius: 100px; overflow: hidden; }
+.bar-fill { height: 100%; background: var(--ink); border-radius: 100px; transform: scaleX(0); transform-origin: left; transition: transform 1.3s cubic-bezier(.4,0,.2,1), background 0.4s; }
+
+/* CONTACT */
+#contact { background: var(--contact-bg); color: var(--contact-text); overflow: hidden; position: relative; transition: background 0.4s; }
+#contact .sec-label { color: rgba(255,255,255,0.3); }
+#contact .sec-label::before { background: rgba(255,255,255,0.2); }
+#contact .sec-title { color: var(--contact-text); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; margin-top: 3rem; }
+.contact-tagline { font-size: 0.92rem; color: rgba(255,255,255,0.4); line-height: 1.85; font-weight: 300; margin-bottom: 2.5rem; max-width: 380px; }
+.contact-items { display: flex; flex-direction: column; gap: 0.85rem; }
+.contact-item { display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.3rem; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; text-decoration: none; color: var(--contact-text); transition: all 0.25s ease; }
+.contact-item:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.2); transform: translateX(7px); }
+.contact-item-icon { width: 36px; height: 36px; border-radius: 9px; background: rgba(255,255,255,0.07); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: rgba(255,255,255,0.6); }
+.contact-item-body { flex: 1; }
+.contact-item-label { font-size: 0.65rem; color: rgba(255,255,255,0.3); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.1rem; }
+.contact-item-val { font-size: 0.88rem; font-weight: 500; }
+.contact-right { padding: 2.2rem; border: 1px solid rgba(255,255,255,0.08); border-radius: 22px; }
+.contact-right h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.15rem; color: var(--contact-text); margin-bottom: 0.4rem; }
+.contact-right > p { font-size: 0.8rem; color: rgba(255,255,255,0.3); margin-bottom: 1.8rem; }
+.avail-list { display: flex; flex-direction: column; gap: 0.7rem; }
+.avail-row { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: rgba(255,255,255,0.5); }
+.dot-pulse { width: 7px; height: 7px; border-radius: 50%; background: #5ec96e; box-shadow: 0 0 8px rgba(94,201,110,0.5); animation: dotPulse 2s ease-in-out infinite; flex-shrink: 0; }
+@keyframes dotPulse { 0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(0.7);} }
+
+/* Contact BG decoration */
+.contact-deco { position: absolute; right: -80px; bottom: -80px; width: 350px; height: 350px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.04); pointer-events: none; }
+.contact-deco2 { position: absolute; right: -130px; bottom: -130px; width: 500px; height: 500px; border-radius: 50%; border: 1px dashed rgba(255,255,255,0.03); pointer-events: none; }
+
+/* FOOTER */
+footer { padding: 1.8rem 4rem; background: #060605; display: flex; align-items: center; justify-content: space-between; }
+footer p { font-size: 0.74rem; color: rgba(255,255,255,0.18); }
+
+/* ANIMATIONS */
+@keyframes fadeUp { from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);} }
+@keyframes fadeIn { from{opacity:0;}to{opacity:1;} }
+.reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.75s ease, transform 0.75s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* Contact item entrance */
+.slide-in { opacity: 0; transform: translateX(-20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.slide-in.visible { opacity: 1; transform: translateX(0); }
+
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem;}
+  section{padding:5rem 1.5rem;}
+  #hero{padding:0 1.5rem;}
+  .about-grid,.contact-grid,.skills-grid{grid-template-columns:1fr;gap:2rem;}
+  .services-grid,.projects-grid{grid-template-columns:1fr 1fr;}
+  .orb-wrap{display:none;}
+  .hero-bottom{flex-direction:column;align-items:flex-start;}
+  footer{flex-direction:column;gap:0.4rem;text-align:center;padding:1.5rem;}
+}
+@media(max-width:600px){
+  .services-grid,.projects-grid{grid-template-columns:1fr;}
+  .nav-links{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="nav-logo" href="#">AZONIX</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#projects">Work</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <label class="theme-toggle" title="Toggle dark mode">
+      <input type="checkbox" id="themeToggle">
+      <div class="toggle-track">
+        <div class="toggle-thumb">
+          <svg class="toggle-icon" id="toggleIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </div>
+      </div>
+    </label>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Karachi, Pakistan &nbsp;·&nbsp; Open to work.</div>
+    <h1 class="hero-name">Azonix<span>.</span></h1>
+    <div class="hero-sub">
+      <span>Digital Tech</span>
+      <span class="hero-sub-dot">·</span>
+      <span>Designer</span>
+      <span class="hero-sub-dot">·</span>
+      <span>Developer</span>
+      <span class="hero-sub-dot">·</span>
+      <span>AI Explorer</span>
+    </div>
+    <div class="hero-bottom">
+      <p class="hero-bio">
+        Hi, I'm <strong>Moiz</strong> — the person behind Azonix. I'm 16, based in Pakistan,  and i'm all about creating cool digital stuff. I turn my ideas into creativity and present amazing projects and digital work. I always learning new skills every day.
+      </p>
+      <div class="hero-cta">
+        <a href="#contact" class="btn btn-dark">
+          <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Let's Talk
+        </a>
+        <a href="#projects" class="btn btn-outline">
+          <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          My Work
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="orb-wrap">
+    <div class="orb-r2"></div>
+    <div class="orb-r1"></div>
+    <div class="orb"></div>
+  </div>
+  <div class="scroll-line-wrap"><div class="scroll-line"></div></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="max-w">
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <div class="sec-label">About Me</div>
+        <h2 class="sec-title">A young creative<br>figuring it out.</h2>
+        <p>I'm <strong>Moiz</strong> — 16 years old, from Karachi, Pakistan. I go by <strong>Azonix</strong> online. It's my personal brand, my workspace, and honestly just a cool name I'm building something around. Right now it's just me.</p>
+        <p>I finished my Matric and steping in my intermidiate education — currently in vacation gap, but <strong>learning something new every single day</strong>. I got into graphic design first, then web development, and now I'm deep into AI tools. Still a learning in all of it, but I'm genuinely passionate and putting in the work.</p>
+        <p>If you need someone creative, willing to learn fast, and honest about what they can do — <strong>that's me</strong>.</p>
+      </div>
+      <div class="about-visual reveal reveal-delay-2">
+        <div class="about-card">
+          <div class="about-avatar">M</div>
+          <h3>Moiz</h3>
+          <p class="role">Azonix · Karachi, Pakistan 🇵🇰</p>
+          <div class="chip-list">
+            <span class="chip">Graphic Design</span>
+            <span class="chip">AI Tools</span>
+            <span class="chip">Web Dev</span>
+            <span class="chip">Video Editing</span>
+            <span class="chip">Product Ads</span>
+            <span class="chip">Still Learning</span>
+            <span class="chip">Building Azonix</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="max-w">
+    <div class="reveal">
+      <div class="sec-label">What I Do</div>
+      <h2 class="sec-title">Things I can help<br>you with.</h2>
+    </div>
+    <div class="services-grid">
+      <div class="svc-card reveal reveal-delay-1"><div class="svc-inner">
+        <div class="svc-num">01</div>
+        <svg class="svc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+        <div class="svc-title">Graphic Design</div>
+        <p class="svc-desc">Logos, brand visuals, social media graphics. I use Illustrator and Photoshop and genuinely enjoy making things look good.</p>
+        <div class="svc-tools"><span class="svc-tool">Illustrator</span><span class="svc-tool">Photoshop</span></div>
+      </div></div>
+      <div class="svc-card reveal reveal-delay-2"><div class="svc-inner">
+        <div class="svc-num">02</div>
+        <svg class="svc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <div class="svc-title">Product Ads & Marketing</div>
+        <p class="svc-desc">Scroll-stopping product creatives and ad visuals for social media. Learning what works and what doesn't as I go.</p>
+        <div class="svc-tools"><span class="svc-tool">Photoshop</span><span class="svc-tool">After Effects</span><span class="svc-tool">Premiere</span></div>
+      </div></div>
+      <div class="svc-card reveal reveal-delay-3"><div class="svc-inner">
+        <div class="svc-num">03</div>
+        <svg class="svc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 8v4l3 3"/><path d="M18 2v4h4"/></svg>
+        <div class="svc-title">AI-Powered Work</div>
+        <p class="svc-desc">Using tools like Claude, Google AI Studio, Kimi.ai, and more to create smarter and faster. This is the space I'm most excited about.</p>
+        <div class="svc-tools"><span class="svc-tool">Claude</span><span class="svc-tool">Google AI Studio</span><span class="svc-tool">Kimi.ai</span></div>
+      </div></div>
+      <div class="svc-card reveal reveal-delay-1"><div class="svc-inner">
+        <div class="svc-num">04</div>
+        <svg class="svc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <div class="svc-title">Web Development</div>
+        <p class="svc-desc">Building websites with HTML, CSS, and JavaScript. Still learning hosting and deployment but I can make things work.</p>
+        <div class="svc-tools"><span class="svc-tool">HTML/CSS</span><span class="svc-tool">JavaScript</span><span class="svc-tool">Claude Code</span></div>
+      </div></div>
+      <div class="svc-card reveal reveal-delay-2"><div class="svc-inner">
+        <div class="svc-num">05</div>
+        <svg class="svc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+        <div class="svc-title">Video & Motion</div>
+        <p class="svc-desc">Short videos, reels, and AI-generated motion content using Premiere, After Effects, and tools like LumaLabs.</p>
+        <div class="svc-tools"><span class="svc-tool">Premiere</span><span class="svc-tool">After Effects</span><span class="svc-tool">LumaLabs</span></div>
+      </div></div>
+      <div class="svc-card reveal reveal-delay-3"><div class="svc-inner">
+        <div class="svc-num">06</div>
+        <svg class="svc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <div class="svc-title">Office & Documents</div>
+        <p class="svc-desc">Clean Word docs, Excel sheets, and PowerPoint presentations. One of the things I'm actually pretty solid at.</p>
+        <div class="svc-tools"><span class="svc-tool">Word</span><span class="svc-tool">Excel</span><span class="svc-tool">PowerPoint</span></div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="max-w">
+    <div class="projects-intro reveal">
+      <div>
+        <div class="sec-label">My Work</div>
+        <h2 class="sec-title">Real projects,<br>real learning.</h2>
+      </div>
+      <p class="projects-note">These are actual things I've made. To swap any image, just replace the filename in the same folder as this HTML file.</p>
+    </div>
+    <div class="projects-grid">
+
+      <!-- PROJECT 1: Graphic Design -->
+      <div class="proj-card reveal reveal-delay-1">
+        <div class="proj-thumb">
+          <img src="brand-identity.jpg" alt="Brand Identity Project"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+          <div class="proj-thumb-placeholder" style="display:none;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;gap:8px;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span style="font-size:0.68rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3);">Add brand-identity.jpg</span>
+          </div>
+          <span class="proj-badge">Graphic Design</span>
+        </div>
+        <div class="proj-info">
+          <div class="proj-cat">Brand Identity</div>
+          <div class="proj-title">Brand Identity Concept</div>
+          <p class="proj-desc">Logo, colors, and social kit made in Illustrator and Photoshop.</p>
+        </div>
+      </div>
+
+      <!-- PROJECT 2: Product Ad -->
+      <div class="proj-card reveal reveal-delay-2">
+        <div class="proj-thumb">
+          <img src="product-ad.jpg" alt="Product Ad"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+          <div class="proj-thumb-placeholder" style="display:none;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;gap:8px;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span style="font-size:0.68rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3);">Add product-ad.jpg</span>
+          </div>
+          <span class="proj-badge">Marketing</span>
+        </div>
+        <div class="proj-info">
+          <div class="proj-cat">Product Ad</div>
+          <div class="proj-title">Product Ad Creative</div>
+          <p class="proj-desc">Social media ad creative made for a mock product launch campaign.</p>
+        </div>
+      </div>
+
+      <!-- PROJECT 3: Website -->
+      <div class="proj-card reveal reveal-delay-3">
+        <div class="proj-thumb">
+          <img src="website.jpg" alt="Website Project"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+          <div class="proj-thumb-placeholder" style="display:none;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;gap:8px;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span style="font-size:0.68rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3);">Add website.jpg</span>
+          </div>
+          <span class="proj-badge">Web Dev</span>
+        </div>
+        <div class="proj-info">
+          <div class="proj-cat">Web Development</div>
+          <div class="proj-title">Responsive Landing Page</div>
+          <p class="proj-desc">A landing page built from scratch with HTML, CSS and JavaScript.</p>
+        </div>
+      </div>
+
+      <!-- PROJECT 4: AI Visual -->
+      <div class="proj-card reveal reveal-delay-1">
+        <div class="proj-thumb">
+          <img src="ai-visual.jpg" alt="AI Visual Project"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+          <div class="proj-thumb-placeholder" style="display:none;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;gap:8px;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span style="font-size:0.68rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3);">Add ai-visual.jpg</span>
+          </div>
+          <span class="proj-badge">AI + Design</span>
+        </div>
+        <div class="proj-info">
+          <div class="proj-cat">AI Visual</div>
+          <div class="proj-title">AI-Generated Campaign</div>
+          <p class="proj-desc">Used Google Flow and AI Studio to generate and refine marketing visuals.</p>
+        </div>
+      </div>
+
+      <!-- PROJECT 5: Video (mp4 supported) -->
+      <div class="proj-card reveal reveal-delay-2">
+        <div class="proj-thumb">
+          <video src="product-ad.mp4" autoplay loop muted playsinline
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+          </video>
+          <div class="proj-thumb-placeholder" style="display:none;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;gap:8px;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+            <span style="font-size:0.68rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3);">Add product-ad.mp4</span>
+          </div>
+          <span class="proj-badge">Video</span>
+        </div>
+        <div class="proj-info">
+          <div class="proj-cat">Video / Motion</div>
+          <div class="proj-title">Product Ad Video</div>
+          <p class="proj-desc">Short-form product video edited in Premiere Pro with motion effects.</p>
+        </div>
+      </div>
+
+      <!-- PROJECT 6: Coming soon -->
+      <div class="proj-card reveal reveal-delay-3">
+        <div class="proj-thumb">
+          <div class="proj-thumb-placeholder" style="display:flex;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;gap:8px;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            <span style="font-size:0.68rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3);">Next Project</span>
+          </div>
+          <span class="proj-badge">Coming Soon</span>
+        </div>
+        <div class="proj-info">
+          <div class="proj-cat">In Progress</div>
+          <div class="proj-title">Something New</div>
+          <p class="proj-desc">Always working on something. Check back soon.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="max-w">
+    <div class="reveal">
+      <div class="sec-label">Skills</div>
+      <h2 class="sec-title">What I know</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-group reveal reveal-delay-1">
+        <div class="skill-group-title">Design & Video</div>
+        <div class="skill-row"><div class="skill-row-top">Illustrator <span>Good in vectore design</span></div><div class="bar-bg"><div class="bar-fill" style="width:85%"></div></div></div>
+        <div class="skill-row"><div class="skill-row-top">Photoshop <span>Getting comfortable</span></div><div class="bar-bg"><div class="bar-fill" style="width:70%"></div></div></div>
+        <div class="skill-row"><div class="skill-row-top">After Effects <span>Still learning</span></div><div class="bar-bg"><div class="bar-fill" style="width:48%"></div></div></div>
+        <div class="skill-row"><div class="skill-row-top">Premiere Pro <span>Can edit decently</span></div><div class="bar-bg"><div class="bar-fill" style="width:60%"></div></div></div>
+      </div>
+      <div class="skill-group reveal reveal-delay-2">
+        <div class="skill-group-title">Dev & AI</div>
+        <div class="skill-row"><div class="skill-row-top">HTML & CSS <span>Building things</span></div><div class="bar-bg"><div class="bar-fill" style="width:81%"></div></div></div>
+        <div class="skill-row"><div class="skill-row-top">JavaScript <span>Beginner, learning</span></div><div class="bar-bg"><div class="bar-fill" style="width:73%"></div></div></div>
+        <div class="skill-row"><div class="skill-row-top">AI Tools <span>Genuinely good at this</span></div><div class="bar-bg"><div class="bar-fill" style="width:80%"></div></div></div>
+        <div class="skill-row"><div class="skill-row-top">MS Office <span>Very comfortable</span></div><div class="bar-bg"><div class="bar-fill" style="width:82%"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-deco"></div>
+  <div class="contact-deco2"></div>
+  <div class="max-w">
+    <div class="reveal">
+      <div class="sec-label">Contact</div>
+      <h2 class="sec-title">Let's work on<br>something together.</h2>
+    </div>
+    <div class="contact-grid">
+      <div>
+        <p class="contact-tagline slide-in" style="transition-delay:0.1s">
+          Got a project? Want a design, a website, or just want to talk about AI stuff? I'm genuinely open to freelance work and new things. Reach out — I reply fast.
+        </p>
+        <div class="contact-items">
+          <a href="https://wa.me/923132437227" target="_blank" class="contact-item slide-in" style="transition-delay:0.2s">
+            <div class="contact-item-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.35 2 2 0 0 1 3.59 1.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.61a16 16 0 0 0 6.09 6.09l.9-.9a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.73 16a2 2 0 0 1 .27.92z"/></svg>
+            </div>
+            <div class="contact-item-body">
+              <div class="contact-item-label">WhatsApp</div>
+              <div class="contact-item-val">+92 313 2437227</div>
+            </div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=moiz.akskdr@gmail.com" target="_blank" rel="noopener noreferrer" class="contact-item slide-in" style="transition-delay:0.3s">
+            <div class="contact-item-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="contact-item-body">
+              <div class="contact-item-label">Email</div>
+              <div class="contact-item-val">moiz.akskdr@gmail.com</div>
+            </div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="contact-right slide-in reveal" style="transition-delay:0.15s">
+        <h3>Currently Available</h3>
+        <p>Open to projects right now</p>
+        <div class="avail-list">
+          <div class="avail-row"><div class="dot-pulse"></div>Graphic Design</div>
+          <div class="avail-row"><div class="dot-pulse" style="animation-delay:0.4s"></div>Product Ad Creatives</div>
+          <div class="avail-row"><div class="dot-pulse" style="animation-delay:0.8s"></div>AI-Assisted Work</div>
+          <div class="avail-row"><div class="dot-pulse" style="animation-delay:1.2s"></div>Web Design & Dev</div>
+          <div class="avail-row"><div class="dot-pulse" style="animation-delay:1.6s"></div>Office Documents</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Azonix · Moiz · Karachi, Pakistan</p>
+  <p>Learning out loud. Building in public.</p>
+</footer>
+
+<script>
+// CURSOR
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function loop(){
+  cur.style.transform=`translate(${mx-4.5}px,${my-4.5}px)`;
+  rx+=(mx-rx)*0.11; ry+=(my-ry)*0.11;
+  ring.style.transform=`translate(${rx-17}px,${ry-17}px)`;
+  requestAnimationFrame(loop);
+})();
+document.querySelectorAll('a,button,label,.svc-card,.proj-card,.tool-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='48px';ring.style.height='48px';ring.style.opacity='0.2';});
+  el.addEventListener('mouseleave',()=>{ring.style.width='34px';ring.style.height='34px';ring.style.opacity='0.4';});
+});
+
+// NAV SCROLL
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',scrollY>40);
+});
+
+// THEME TOGGLE
+const toggle = document.getElementById('themeToggle');
+const moonPath = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`;
+const sunPaths = `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`;
+const icon = document.getElementById('toggleIcon');
+
+const saved = localStorage.getItem('azonix-theme');
+if(saved==='dark'){
+  document.documentElement.setAttribute('data-theme','dark');
+  toggle.checked=true;
+  icon.innerHTML=moonPath;
+}
+
+toggle.addEventListener('change',()=>{
+  if(toggle.checked){
+    document.documentElement.setAttribute('data-theme','dark');
+    icon.innerHTML=moonPath;
+    localStorage.setItem('azonix-theme','dark');
+  } else {
+    document.documentElement.setAttribute('data-theme','light');
+    icon.innerHTML=sunPaths;
+    localStorage.setItem('azonix-theme','light');
+  }
+});
+
+// SCROLL REVEAL
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'), i*70);
+  });
+},{threshold:0.1});
+document.querySelectorAll('.reveal,.slide-in').forEach(el=>obs.observe(el));
+
+// SKILL BARS
+const barObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.bar-fill').forEach((b,i)=>{
+        setTimeout(()=>{ b.style.transform='scaleX(1)'; }, i*140+200);
+      });
+      barObs.unobserve(e.target);
+    }
+  });
+},{threshold:0.2});
+document.querySelectorAll('.skills-grid').forEach(el=>barObs.observe(el));
+</script>
+</body>
+</html>
